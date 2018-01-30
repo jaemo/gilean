@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from "react-native-elements";
-import { isSignedIn, plsSignIn, setLogin, onSignIn, getCreds } from "../auth";
+import {  plsSignIn, setLogin, onSignIn, getCreds } from "../auth";
 import styles from '../stylesheets/style';
 
 
@@ -17,17 +17,6 @@ async function handleThis(navigation){
 }
 
 export const handleSignIn = (navigation) => {
-  onSignIn()
-  .then(res => {
-    console.log("Response from onSignIn call: " + res)
-    isSignedIn()
-      .then(res => {
-        console.log("Sign in Result: " + res)
-        if(res){
-          navigation.navigate("SignedIn");
-        }
-      })
-  })
 };
 
 export default ({ navigation }) => {

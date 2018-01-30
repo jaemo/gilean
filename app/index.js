@@ -1,12 +1,6 @@
-import '../ReactotronConfig';
 import React from "react";
-import { Provider } from 'react-redux';
-import { CREATE_ORGANIZATION, LIST_ORGANIZATIONS } from './actions/actions'
 import { AppRegistry  } from 'react-native';
-import { ApolloClient  } from 'apollo-client';
-import { ApolloProvider  } from 'react-apollo';
 import { createRootNavigator } from "./router";
-
 import { isSignedIn } from "./auth";
 
 export default class App extends React.Component {
@@ -14,8 +8,6 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      username: "",
-      password: "",
       signedIn: false,
       checkedSignIn: false
     };
@@ -24,13 +16,15 @@ export default class App extends React.Component {
     global.token="";
   }
 
+  handleChangeLoginState = (loggedIn = false) => {
+    this.setState({ loggedIn  });
+
+  };
+
   componentWillMount() {
-    isSignedIn()
-      .then(res => {
-        console.log("Index checked signing and found:" + res)
-        this.setState({ signedIn: res, checkedSignIn: true })
-      })
-      .catch(err => alert("An error occurred"));
+    this.setState({
+      checkedSignIn: true
+    })
   }
 
   render() {
@@ -41,7 +35,8 @@ export default class App extends React.Component {
       return null;
     }
 
-    const Layout = createRootNavigator(signedIn);
-    return <Layout paddingTop="0" />
+    const Layout = createRootNavigator(this.state.loggedIn);
+
+    return <Layout paddingTop="0" screenProps={{ changeLoginState: this.handleChangeLoginState }} />
   }
 }
