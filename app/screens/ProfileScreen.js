@@ -6,45 +6,49 @@ import { onSignOut, getCreds  } from "../auth";
 import styles from '../stylesheets/style';
 
 
-export const handleSignOut = (navigation) => {
-  onSignOut()
-  .then(res => {
-    console.log("SignOut Response " + res);
-    navigation.navigate("SignedOut")
-  })
-};
+export default class Profile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
 
-export const renderView = () => {
-  return(
-    <Card title={username}>
-      <View
-        style={{
-          backgroundColor: "#bcbec1",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 80,
-          height: 80,
-          borderRadius: 40,
-          alignSelf: "center",
-          marginBottom: 20
-        }}
-      >
-        <Text style={{ color: "white", fontSize: 28  }}>JD</Text>
-        <Text>Organization: {organization.name}</Text>
+  handleSignOut = () => {
+    this.props.navigation.navigate("SignedOut");
+  };
+
+ renderView = () => {
+   return(
+     <Card title={username}>
+       <View
+         style={{
+           backgroundColor: "#bcbec1",
+           alignItems: "center",
+           justifyContent: "center",
+           width: 80,
+           height: 80,
+           borderRadius: 40,
+           alignSelf: "center",
+           marginBottom: 20
+         }}
+       >
+         <Text style={{ color: "white", fontSize: 28  }}>JD</Text>
+         <Text>Organization: {organization.name}</Text>
+       </View>
+     </Card>
+   )
+ }
+
+  render() {
+    return(
+      <View style={styles.scrollContainer}>
+        <Button
+          backgroundColor="#03A9F4"
+          title="SIGN OUT"
+          onPress={this.handleSignOut}
+        />
       </View>
-    </Card>
-  )
+    )
+  }
+
 }
-
-export default ({ navigation }) => (
-  <View style={styles.scrollContainer}>
-    <Button
-      backgroundColor="#03A9F4"
-      title="SIGN OUT"
-      onPress={() => {
-        handleSignOut(navigation)
-      }}
-    />
-  </View>
-)
-

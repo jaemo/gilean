@@ -13,8 +13,6 @@ export default class Login extends React.Component {
       password: '',
       passwordError: false,
     };
-
-    this.onPressLogin = this.onPressLogin.bind(this);
   }
 
   handleInputChange = (field, value) => {
@@ -39,54 +37,8 @@ export default class Login extends React.Component {
       return this.setState({ passwordError: true  });
     }
     this.setState({ passwordError: false  });
-      console.log(email)
-      let authd = await authenticate(email, password)
-    //return this.props.screenProps.changeLoginState(true);
+    return this.props.screenProps.loginHandler(email, password);
   };
-
-  export const authenticate = async (email, password) => {
-    return new Promise((resolve, reject) => {
-      let response = fetch('https://astinus-dev.herokuapp.com/api/v1/authenticate', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password,
-        })
-      })
-        .then(response =>{
-          console.log(response);
-        })
-
-    })
-  }
-
-  onPressLogin() {
-    if(this.state.email != "" && this.state.password != ""){
-      let response = fetch('https://astinus-dev.herokuapp.com/api/v1/authenticate', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password,
-        })
-      })
-        .then((response) => response.json())
-        .then((responseJson) => {
-          this.setState({
-            user: responseJson.user,
-            organizations: responseJson.organizations,
-            token: responseJson.jwt,
-          })
-        })
-    }
-  }
 
   render() {
     const { emailError, passwordError  } = this.state;

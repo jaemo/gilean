@@ -1,7 +1,7 @@
 import React from "react";
 import { AppRegistry  } from 'react-native';
 import { createRootNavigator } from "./router";
-import { isSignedIn } from "./auth";
+import { getCreds, persistCredentials, onSignIn, signOut, isSignedIn } from "./auth";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -12,16 +12,30 @@ export default class App extends React.Component {
       checkedSignIn: false
     };
 
-    global.api_url="https://astinus-dev.herokuapp.com/" //your API URL
-    global.token="";
+    global.api_url="http://192.168.1.200:4000/" //your API URL
   }
 
   handleChangeLoginState = (loggedIn = false) => {
-    this.setState({ loggedIn  });
-
+    if(!loggedIn){
+      global.token="";
+      signOut();
+    }
+    this.setState({ loggedIn });
   };
 
-  componentWillMount() {
+  apiAuthenticate = async (email, password) => {
+    let auth = await onSignIn(email, password)
+    let json = await auth.json();
+    persistCredentials(json)
+    this.handleChangeLoginState(true);
+  }
+
+  async componentWillMount() {
+    let fetchedCredentials = await getCreds();
+    credentials = await JSON.parse(fetchedCredentials);
+    if(credentials){
+      this.handleChangeLoginState(true);
+    }
     this.setState({
       checkedSignIn: true
     })
@@ -37,6 +51,6 @@ export default class App extends React.Component {
 
     const Layout = createRootNavigator(this.state.loggedIn);
 
-    return <Layout paddingTop="0" screenProps={{ changeLoginState: this.handleChangeLoginState }} />
+    return <Layout paddingTop="0" screenProps={{ loginHandler: this.apiAuthenticate, changeLoginState: this.handleChangeLoginState }} />
   }
 }
