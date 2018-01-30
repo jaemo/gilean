@@ -9,7 +9,7 @@ import styles from '../stylesheets/style';
 export const handleSignOut = (navigation) => {
   onSignOut()
   .then(res => {
-    console.log(res);
+    console.log("SignOut Response " + res);
     navigation.navigate("SignedOut")
   })
 };

@@ -16,7 +16,7 @@ export async function getCreds(){
     credentials= await AsyncStorage.getItem(USER_KEY)
     return(credentials)
   } catch (error) {
-    console.log(error)
+    //console.log(error)
     // Error retrieving data
     //
     return({})
@@ -40,12 +40,13 @@ export async function onSignIn(){
         })
       })
         .then((response) => {
+          //console.log("response from auth endpoint" + response)
           let responseJson = {};
           if(response.status != 200){
             //return(false);
             return({"Error": "Could not sign in"})
           }else{
-            console.log(response);
+            //console.log("Response from parsed JSON" + JSON.stringify(response));
             return(response.json())
           }
         })
@@ -61,7 +62,7 @@ export async function onSignIn(){
             AsyncStorage.removeItem('username');
             AsyncStorage.removeItem('password');
             return(responseJson)
-            }
+          }
         })
     }
 
@@ -74,7 +75,7 @@ export async function onSignIn(){
 }
 
 export async function onSignOut(){
-  console.log("Signing Out")
+  //console.log("Signing Out")
   try {
     global.token = null;
     AsyncStorage.removeItem(USER_KEY);
@@ -84,8 +85,40 @@ export async function onSignOut(){
   }
 }
 
+
+export const Login = (username, password) => {
+  let response = fetch(global.api_url + '/api/v1/authenticate', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email: username,
+      password: password,
+    })
+  })
+  return(response);
+}
+
+export const getLoginCredentials = () => {
+  return new Promise((resolve, reject) => {
+    login_creds = AsyncStorage.multiGet(['username', 'password'])
+      .then((res =>{
+        if(res !== null){
+          let [[userField, username], [passwordField, password]] = res
+          AsyncStorage.removeItem('username');
+          AsyncStorage.removeItem('password');
+          resolve([username, password])
+        } else {
+          resolve(false);
+        }
+      }))
+    })
+}
+
 export const isSignedIn = () => {
-  console.log("checking Sign In");
+  //console.log("checking Sign In");
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem(USER_KEY)
       .then(res => {

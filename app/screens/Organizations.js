@@ -14,7 +14,7 @@ export async function checkCredentials() {
   try{
     let credentials = await(getCreds())
     if(credentials !== null){
-      console.log(credentials);
+//      console.log(credentials);
       return(credentials)
     }
   } catch (error) {

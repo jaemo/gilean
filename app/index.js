@@ -20,14 +20,14 @@ export default class App extends React.Component {
       checkedSignIn: false
     };
 
-    global.api_url="https://example.com/" //your API URL
+    global.api_url="https://astinus-dev.herokuapp.com/" //your API URL
     global.token="";
   }
 
   componentWillMount() {
     isSignedIn()
       .then(res => {
-        console.log(res);
+        console.log("Index checked signing and found:" + res)
         this.setState({ signedIn: res, checkedSignIn: true })
       })
       .catch(err => alert("An error occurred"));
