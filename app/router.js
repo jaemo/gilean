@@ -25,8 +25,9 @@ export const OrganizationStack = StackNavigator({
     navigationOptions: {
       title: "Organizations",
       headerStyle: {
-        backgroundColor: '#222',
+        backgroundColor: '#000',
       },
+      headerTintColor: '#fff',
       headerTitleStyle: {
         color: '#fff',
       }
@@ -37,8 +38,9 @@ export const OrganizationStack = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.name.toUpperCase()}`,
       headerStyle: {
-        backgroundColor: '#222',
+        backgroundColor: '#000',
       },
+      headerTintColor: '#ffffff',
       headerTitleStyle: {
         color: '#fff',
       },

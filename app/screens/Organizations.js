@@ -13,35 +13,15 @@ export default class Organizations extends React.Component {
     };
   }
 
-
-  checkCredentials = async () => {
-    try{
-      let credentials = await(getCreds())
-      if(credentials !== null){
-        return(credentials)
-      }
-    } catch (error) {
-      //
-    }
+  componentDidMount(){
+    this.onOrganizationsChange();
   }
 
-  loadOrganizations = async (token) => {
-    let response = await fetch(global.api_url + '/api/admin/organizations', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': "Bearer " + token,
-      },
-    })
-    const json = await response.json();
-  }
-
-  async componentDidMount(){
+  loadOrganizations = async () => {
     let fetchedCredentials = await getCreds();
     credentials = JSON.parse(fetchedCredentials);
-    if(credentials){
 
+    if(credentials){
       let response = await fetch(global.api_url + '/api/admin/organizations', {
         method: 'GET',
         headers: {
@@ -50,57 +30,61 @@ export default class Organizations extends React.Component {
           'Authorization': "Bearer " + credentials.token,
         },
       })
-
       const json = await response.json();
-      this.setState({
-        okToRender: true,
-        organizations: json.organizations
-      })
+      return json;
     }
   }
 
+  onOrganizationsChange = async () => {
+    let json = await this.loadOrganizations();
+
+    this.setState({
+      okToRender: true,
+      organizations: json.organizations
+    })
+  }
 
   onEditOrganization = (organization) => {
-    this.props.navigation.navigate('OrganizationDetails', {...organization});
+    this.props.navigation.navigate('OrganizationDetails', {...organization, refreshHandler: this.onOrganizationsChange});
   }
 
-  onNewOrganization = () => {
-    this.props.navigation.navigate('OrganizationNew');
-  }
+onNewOrganization = () => {
+  this.props.navigation.navigate('OrganizationNew', {refreshHandler: this.onOrganizationsChange});
+}
 
-  render(){
-    let organizations = this.state.organizations;
+render(){
+  let organizations = this.state.organizations;
 
-    return (
-      <View style={styles.scrollContainer}>
+  return (
+    <View style={styles.scrollContainer}>
       { organizations.length == 0 &&
         <ActivityIndicator size="large" color="#ffffff" />
       }
       { organizations.length != 0 &&
-      <ScrollView style={{flex: 2}}>
-      <List>
-      {organizations.map((organization)  => (
-        <ListItem
-        containerStyle={styles.listitem}
-        titleStyle={styles.listItemText}
-        title={`${organization.name}`}
-                key={organization.id}
-                onPress={() => this.onEditOrganization(organization)}
-              />
-            ))}
-          </List>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              this.onNewOrganization()
-            }}
-          >
-            <Text style={styles.buttonText}>CREATE ORGANIZATION</Text>
-          </TouchableOpacity>
+          <ScrollView style={{flex: 2}}>
+            <List>
+              {organizations.map((organization)  => (
+                <ListItem
+                  containerStyle={styles.listitem}
+                  titleStyle={styles.listItemText}
+                  title={`${organization.name}`}
+                  key={organization.id}
+                  onPress={() => this.onEditOrganization(organization)}
+                />
+              ))}
+            </List>
 
-        </ScrollView> }
-      </View>
-    )
-  }
+          </ScrollView> }
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.onNewOrganization()
+              }}
+            >
+              <Text style={styles.buttonText}>CREATE ORGANIZATION</Text>
+            </TouchableOpacity>
+        </View>
+  )
+}
 }
 

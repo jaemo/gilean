@@ -32,9 +32,12 @@ class OrganizationNew extends Component {
           }
         })
       })
-      if(response.status == "201"){
+
+      if(response.status == 201){
+
+
+        this.props.navigation.state.params.refreshHandler();
         this.props.navigation.goBack();
-        return(response)
       }
     } catch(error) {
       //
@@ -60,7 +63,7 @@ class OrganizationNew extends Component {
               this.onCreateOrganization()
             }}
             >
-            <Text style={styles.buttonText}>CREATE ORGANIZATION</Text>
+            <Text style={styles.buttonText}>SAVE ORGANIZATION</Text>
           </TouchableOpacity>
         </Card>
       </ScrollView>

@@ -12,7 +12,7 @@ export default class App extends React.Component {
       checkedSignIn: false
     };
 
-    global.api_url="http://10.10.1.91:4000" //your API URL
+    global.api_url="http://192.168.1.200:4000" //your API URL
   }
 
   handleChangeLoginState = (loggedIn = false) => {

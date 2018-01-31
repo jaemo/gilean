@@ -2,10 +2,23 @@ import { StyleSheet  } from 'react-native';
 
 export default StyleSheet.create({
   loginView: {
-    backgroundColor: "#333333",
+    backgroundColor: "#212121",
     flex: 1,
     alignItems:'center',
     justifyContent: 'center',
+  },
+  logoframe: {
+    flex: 1,
+    width: '90%',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    flex: 1,
+    resizeMode: 'contain',
+    width: 300,
   },
   scrollContainer: {
     backgroundColor: '#333',
@@ -73,11 +86,18 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     flexDirection: 'row',
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 20,
+  },
+  formLabel: {
+    marginBottom: 10,
+    color: "#ddd",
   },
   buttonPair: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginBottom: 20,
   },
   buttonPairButton: {
     width: '40%',
@@ -108,5 +128,34 @@ export default StyleSheet.create({
     color: "red",
     fontWeight: "bold",
     fontSize: 16,
+  },
+  warningHeader: {
+    alignItems:'center',
+    justifyContent:'center',
+    fontSize: 20,
+    textAlign: 'center',
+    color: "#ffffff",
+  },
+  dialogButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  deleteModal: {
+    flex: 1,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  deleteWarningDialog: {
+    flex: 1,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor: 'rgba(1,1,1, 0.5)',
+
+  },
+  deleteWarningCard: {
+    backgroundColor: "#333",
+    borderRadius: 6,
   }
 });

@@ -1,7 +1,6 @@
 import React from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Image, KeyboardAvoidingView, ActivityIndicator, StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native';
 import { Card, FormLabel, FormInput } from "react-native-elements";
-import { ActivityIndicator, StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native';
 import styles from '../stylesheets/style';
 
 export default class Login extends React.Component {
@@ -48,8 +47,13 @@ export default class Login extends React.Component {
     let isLoggingIn = this.state.isLoggingIn;
 
     return (
-      <View style={styles.container}>
-        <Text>Analytics SuperAdmin Login</Text>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.logoframe}>
+        <Image
+          style={styles.logo}
+          source={require('../images/logo.png')}
+        />
+      </View>
       {!isLoggingIn &&
         <Card containerStyle={styles.card}>
           <TextInput
@@ -76,7 +80,8 @@ export default class Login extends React.Component {
       { isLoggingIn &&
         <ActivityIndicator size="large" color="#ffffff" />
       }
-      </View>
+      <View style={{ height: 60  }} />
+      </KeyboardAvoidingView>
     );
   }
 }
