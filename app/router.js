@@ -8,6 +8,7 @@ import Home from "./screens/Home";
 import ProfileScreen from "./screens/ProfileScreen";
 import Organizations from "./screens/Organizations";
 import OrganizationDetail from "./screens/OrganizationDetail";
+import OrganizationNew from "./screens/OrganizationNew";
 
 import Users from "./screens/Users";
 
@@ -22,6 +23,7 @@ export const OrganizationStack = StackNavigator({
   OrganizationFeed: {
     screen: Organizations,
     navigationOptions: {
+      title: "Organizations",
       headerStyle: {
         backgroundColor: '#222',
       },
@@ -34,6 +36,21 @@ export const OrganizationStack = StackNavigator({
     screen: OrganizationDetail,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.name.toUpperCase()}`,
+      headerStyle: {
+        backgroundColor: '#222',
+      },
+      headerTitleStyle: {
+        color: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: "#333",
+      }
+    })
+  },
+  OrganizationNew: {
+    screen: OrganizationNew,
+    navigationOptions: ({ navigation }) => ({
+      title: 'New Organization',
       headerStyle: {
         backgroundColor: '#222',
       },
@@ -92,7 +109,6 @@ export const SignedIn = TabNavigator(
     //},
   },
   {
-    tabBarPosition: 'top',
     activeBackgroundColor: "#666666",
     inactiveBacgroundColor: "#111111",
     tabBarOptions: {

@@ -72,7 +72,21 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 20,
-    flexDirection: 'row'
+    flexDirection: 'row',
+  },
+  buttonPair: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  buttonPairButton: {
+    width: '40%',
+    backgroundColor: "#666",
+    height: 50,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
   deletebutton: {
     backgroundColor: "#666",

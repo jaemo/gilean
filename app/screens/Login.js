@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
 import { Card, FormLabel, FormInput } from "react-native-elements";
-import { StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, TextInput, View, Button, TouchableOpacity } from 'react-native';
 import styles from '../stylesheets/style';
 
 export default class Login extends React.Component {
@@ -12,6 +12,7 @@ export default class Login extends React.Component {
       emailError: false,
       password: '',
       passwordError: false,
+      isLoggingIn: false,
     };
   }
 
@@ -36,7 +37,7 @@ export default class Login extends React.Component {
     if (password.length === 0) {
       return this.setState({ passwordError: true  });
     }
-    this.setState({ passwordError: false  });
+    this.setState({ passwordError: false, isLoggingIn: true });
     return this.props.screenProps.loginHandler(email, password);
   };
 
@@ -44,10 +45,12 @@ export default class Login extends React.Component {
     const { emailError, passwordError  } = this.state;
     let email = this.state.email || '';
     let password = this.state.password || '';
+    let isLoggingIn = this.state.isLoggingIn;
 
     return (
       <View style={styles.container}>
         <Text>Analytics SuperAdmin Login</Text>
+      {!isLoggingIn &&
         <Card containerStyle={styles.card}>
           <TextInput
             name="email"
@@ -69,7 +72,10 @@ export default class Login extends React.Component {
             onPress={this.handleSubmit}>
             <Text style={styles.buttonText}>SIGN IN</Text>
           </TouchableOpacity>
-        </Card>
+        </Card>}
+      { isLoggingIn &&
+        <ActivityIndicator size="large" color="#ffffff" />
+      }
       </View>
     );
   }

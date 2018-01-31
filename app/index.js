@@ -12,7 +12,7 @@ export default class App extends React.Component {
       checkedSignIn: false
     };
 
-    global.api_url="http://192.168.1.200:4000/" //your API URL
+    global.api_url="http://10.10.1.91:4000" //your API URL
   }
 
   handleChangeLoginState = (loggedIn = false) => {
@@ -34,6 +34,7 @@ export default class App extends React.Component {
     let fetchedCredentials = await getCreds();
     credentials = await JSON.parse(fetchedCredentials);
     if(credentials){
+      this.setState({ token: credentials.token })
       this.handleChangeLoginState(true);
     }
     this.setState({
@@ -43,6 +44,7 @@ export default class App extends React.Component {
 
   render() {
     const { checkedSignIn, signedIn } = this.state;
+    let token = this.state.token;
 
     // If we haven't checked AsyncStorage yet, don't render anything (better ways to do this)
     if (!checkedSignIn) {
@@ -51,6 +53,6 @@ export default class App extends React.Component {
 
     const Layout = createRootNavigator(this.state.loggedIn);
 
-    return <Layout paddingTop="0" screenProps={{ loginHandler: this.apiAuthenticate, changeLoginState: this.handleChangeLoginState }} />
+    return <Layout paddingTop="0" screenProps={{ token: token, loginHandler: this.apiAuthenticate, changeLoginState: this.handleChangeLoginState }} />
   }
 }

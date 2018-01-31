@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { ScrollView, TextInput,TouchableOpacity, Text } from 'react-native';
+import { View, ScrollView, TextInput,TouchableOpacity, Text } from 'react-native';
 import { Tile, Card, List, ListItem } from 'react-native-elements';
 import styles from '../stylesheets/style';
 
 class OrganizationDetail extends Component {
 
   constructor(props){
-    console.log(props)
     super(props);
 
-    let { name } = this.props.navigation.state.params;
+    let { id, name } = this.props.navigation.state.params;
 
     this.state = {
+      token: this.props.screenProps.token,
+			id: id,
       name: name
     }
   }
@@ -20,8 +21,47 @@ class OrganizationDetail extends Component {
     this.setState(field)
   };
 
-  updateOrganization = () => {
-    console.log(this.state.name);
+  deleteOrganization = async () => {
+    try{
+      let response = await fetch(global.api_url + '/api/admin/organizations/' + this.state.id, {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + this.state.token,
+        },
+      })
+      if(response.status == "201"){
+        this.props.navigation.goBack();
+        return(response)
+      }
+    } catch(error) {
+      //
+    }
+  }
+
+  updateOrganization = async () => {
+    try{
+      let response = await fetch(global.api_url + '/api/admin/organizations/' + this.state.id, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + this.state.token,
+        },
+        body: JSON.stringify({
+          organization: {
+            name: this.state.name,
+          }
+        })
+      })
+      if(response.status == "201"){
+        this.props.navigation.goBack();
+        return(response)
+      }
+    } catch(error) {
+      //
+    }
   };
 
   render() {
@@ -37,14 +77,24 @@ class OrganizationDetail extends Component {
             underlineColorAndroid='transparent'
             value={this.state.name}
           />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              this.updateOrganization()
-            }}
-          >
-            <Text style={styles.buttonText}>UPDATE ORGANIZATION</Text>
-          </TouchableOpacity>
+          <View containerStyle={styles.buttonPair}>
+              <TouchableOpacity
+                style={styles.buttonPairButton}
+                onPress={() => {
+                  this.updateOrganization()
+                }}
+              >
+                <Text style={styles.buttonText}>UPDATE ORGANIZATION</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonPairButton}
+                onPress={() => {
+                  this.deleteOrganization()
+                }}
+              >
+                <Text style={styles.deletebuttonText}>DELETE ORGANIZATION</Text>
+              </TouchableOpacity>
+          </View>
         </Card>
       </ScrollView>
     );

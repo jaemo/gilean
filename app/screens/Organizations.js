@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, AsyncStorage, TouchableOpacity, Modal, Text } from "react-native";
+import { ActivityIndicator, View, ScrollView, AsyncStorage, TouchableOpacity, Modal, Text } from "react-native";
 import { Card, Button, List, ListItem  } from "react-native-elements";
 import { isSignedIn, onSignOut, getCreds  } from "../auth";
 import { getUsers } from "../models/users";
@@ -38,9 +38,9 @@ export default class Organizations extends React.Component {
   }
 
   async componentDidMount(){
-      let fetchedCredentials = await getCreds();
-      credentials = JSON.parse(fetchedCredentials);
-      if(credentials){
+    let fetchedCredentials = await getCreds();
+    credentials = JSON.parse(fetchedCredentials);
+    if(credentials){
 
       let response = await fetch(global.api_url + '/api/admin/organizations', {
         method: 'GET',
@@ -57,25 +57,33 @@ export default class Organizations extends React.Component {
         organizations: json.organizations
       })
     }
-    }
+  }
 
 
   onEditOrganization = (organization) => {
     this.props.navigation.navigate('OrganizationDetails', {...organization});
   }
 
+  onNewOrganization = () => {
+    this.props.navigation.navigate('OrganizationNew');
+  }
 
   render(){
     let organizations = this.state.organizations;
+
     return (
       <View style={styles.scrollContainer}>
-        <ScrollView style={{flex: 2}}>
-          <List>
-            {organizations.map((organization)  => (
-              <ListItem
-                containerStyle={styles.listitem}
-                titleStyle={styles.listItemText}
-                title={`${organization.name}`}
+      { organizations.length == 0 &&
+        <ActivityIndicator size="large" color="#ffffff" />
+      }
+      { organizations.length != 0 &&
+      <ScrollView style={{flex: 2}}>
+      <List>
+      {organizations.map((organization)  => (
+        <ListItem
+        containerStyle={styles.listitem}
+        titleStyle={styles.listItemText}
+        title={`${organization.name}`}
                 key={organization.id}
                 onPress={() => this.onEditOrganization(organization)}
               />
@@ -84,13 +92,13 @@ export default class Organizations extends React.Component {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              console.log("derp")
+              this.onNewOrganization()
             }}
           >
             <Text style={styles.buttonText}>CREATE ORGANIZATION</Text>
           </TouchableOpacity>
 
-        </ScrollView>
+        </ScrollView> }
       </View>
     )
   }
