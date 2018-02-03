@@ -73,18 +73,16 @@ render(){
                 />
               ))}
             </List>
-
           </ScrollView> }
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
                 this.onNewOrganization()
-              }}
-            >
+              }}>
               <Text style={styles.buttonText}>CREATE ORGANIZATION</Text>
             </TouchableOpacity>
         </View>
-  )
-}
+    )
+  }
 }
 

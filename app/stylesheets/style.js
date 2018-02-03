@@ -28,6 +28,9 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
   },
+  main: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: '#333',
@@ -129,7 +132,7 @@ export default StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
-  warningHeader: {
+  largeHeader: {
     alignItems:'center',
     justifyContent:'center',
     fontSize: 20,
