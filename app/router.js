@@ -72,6 +72,7 @@ export const OrganizationStack = StackNavigator({
       headerStyle: {
         backgroundColor: '#222',
       },
+      headerTintColor: '#ffffff',
       headerTitleStyle: {
         color: '#fff',
       },

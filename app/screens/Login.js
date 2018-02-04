@@ -41,10 +41,11 @@ export default class Login extends React.Component {
     }
     this.setState({emailError: false});
     if (password.length === 0) {
+      console.log("password is nil");
       return this.setState({passwordError: true});
     }
     this.setState({passwordError: false, isLoggingIn: true});
-    return this.props.screenProps.loginHandler(email, password);
+    var loginResponse = await this.props.screenProps.loginHandler(email, password);
   };
 
   render() {
@@ -60,16 +61,18 @@ export default class Login extends React.Component {
         </View>
         {!isLoggingIn && (
           <Card containerStyle={styles.card}>
+            { emailError && <Text style={styles.errorText}>Can't be blank.</Text> }
             <TextInput
               name="email"
-              style={styles.input}
+              style={[styles.input, emailError && styles.inputError]}
               onChangeText={email => this.handleInputChange('email', email)}
               placeholder="Email"
               underlineColorAndroid="transparent"
             />
+            { passwordError && <Text style={styles.errorText}>Can't be blank.</Text> }
             <TextInput
               name="password"
-              style={styles.input}
+              style={[styles.input, passwordError && styles.inputError]}
               onChangeText={password =>
                 this.handleInputChange('password', password)
               }

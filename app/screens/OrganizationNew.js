@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {ScrollView, TextInput, TouchableOpacity, Text} from 'react-native';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  Alert,
+} from 'react-native';
 import {Tile, Card, List, ListItem} from 'react-native-elements';
 import styles from '../stylesheets/style';
 
@@ -33,7 +39,14 @@ class OrganizationNew extends Component {
 
       if (response.status == 201) {
         this.props.navigation.state.params.refreshHandler();
+        Alert.alert('Success', 'Organization was created.');
         this.props.navigation.goBack();
+      } else {
+        Alert.alert('Error', 'Organization creation failed.');
+        json = await response.json();
+        this.setState({
+          errors: json.errors
+        })
       }
     } catch (error) {
       //

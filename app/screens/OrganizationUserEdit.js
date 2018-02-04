@@ -207,7 +207,7 @@ class OrganizationDetail extends Component {
               <TouchableOpacity
                 style={styles.buttonPairButton}
                 onPress={() => {
-                  this.deleteOrganization();
+                  this.deleteUser();
                 }}>
                 <Text style={styles.deletebuttonText}>DIE, HERETIC!</Text>
               </TouchableOpacity>

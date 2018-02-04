@@ -38,8 +38,15 @@ export default class Organizations extends React.Component {
           Authorization: 'Bearer ' + credentials.token,
         },
       });
+
       const json = await response.json();
-      return json;
+      if(json.message == "invalid_token"){
+        this.props.navigation.navigate("SignedOut");
+        return(false)
+      } else {
+        return json;
+
+      }
     }
   };
 
@@ -67,7 +74,9 @@ export default class Organizations extends React.Component {
 
   render() {
     let organizations = this.state.organizations;
-
+    if(organizations == null || organizations == undefined){
+      return(null)
+    }
     return (
       <View style={styles.scrollContainer}>
         {organizations.length == 0 && (

@@ -1,7 +1,7 @@
 import React from "react";
-import { AppRegistry  } from 'react-native';
+import { AppRegistry, Alert  } from 'react-native';
 import { createRootNavigator } from "./router";
-import { getCreds, persistCredentials, onSignIn, signOut, isSignedIn } from "./auth";
+import { getCreds, persistCredentials, onSignIn, onSignOut, isSignedIn } from "./auth";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -13,12 +13,13 @@ export default class App extends React.Component {
     };
 
     global.api_url="http://192.168.1.200:4000" //your API URL
+    //global.api_url="https://astinus-dev.herokuapp.com" //your API URL
   }
 
   handleChangeLoginState = (loggedIn = false) => {
     if(!loggedIn){
       global.token="";
-      signOut();
+      onSignOut();
     }
     this.setState({ loggedIn });
   };
@@ -26,8 +27,14 @@ export default class App extends React.Component {
   apiAuthenticate = async (email, password) => {
     let auth = await onSignIn(email, password)
     let json = await auth.json();
-    persistCredentials(json)
-    this.handleChangeLoginState(true);
+    if(auth.status != 200){
+      this.handleChangeLoginState(false);
+      Alert.alert('Error', "Could not log in");
+    } else{
+      persistCredentials(json)
+      this.handleChangeLoginState(true);
+    }
+    return json;
   }
 
   async componentWillMount() {
