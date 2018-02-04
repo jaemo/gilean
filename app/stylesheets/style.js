@@ -160,5 +160,20 @@ export default StyleSheet.create({
   deleteWarningCard: {
     backgroundColor: "#333",
     borderRadius: 6,
-  }
+  },
+  accordionListClosed: {
+    height: 0,
+  },
+  accordionToggle: {
+    flexDirection: 'row',
+  },
+  accordionLabel: {
+    color: "#ffffff",
+    fontSize: 20,
+  },
+  accordionIndicator: {
+    position: 'absolute',
+    right: 0,
+    alignSelf: 'flex-end',
+  },
 });

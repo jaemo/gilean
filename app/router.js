@@ -1,41 +1,41 @@
-import React from "react";
-import { Platform, StatusBar } from "react-native";
-import { StackNavigator, TabNavigator } from "react-navigation";
-import { FontAwesome } from "react-native-vector-icons";
+import React from 'react';
+import {Platform, StatusBar} from 'react-native';
+import {StackNavigator, TabNavigator} from 'react-navigation';
+import {FontAwesome} from 'react-native-vector-icons';
 
-import Login from "./screens/Login";
-import Home from "./screens/Home";
-import ProfileScreen from "./screens/ProfileScreen";
-import Organizations from "./screens/Organizations";
-import OrganizationDetail from "./screens/OrganizationDetail";
-import OrganizationNew from "./screens/OrganizationNew";
+import Login from './screens/Login';
+import Home from './screens/Home';
+import ProfileScreen from './screens/ProfileScreen';
+import Organizations from './screens/Organizations';
+import OrganizationDetail from './screens/OrganizationDetail';
+import OrganizationNew from './screens/OrganizationNew';
+import OrganizationUserEdit from './screens/OrganizationUserEdit';
 
-import Users from "./screens/Users";
+import Users from './screens/Users';
 
 const headerStyle = {
-  marginTop: 0,  // Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  backgroundColor: "#666",
+  marginTop: 0, // Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  backgroundColor: '#666',
   height: 20,
 };
-
 
 export const OrganizationStack = StackNavigator({
   OrganizationFeed: {
     screen: Organizations,
     navigationOptions: {
-      title: "Organizations",
+      title: 'Organizations',
       headerStyle: {
         backgroundColor: '#000',
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
         color: '#fff',
-      }
-    }
+      },
+    },
   },
   OrganizationDetails: {
     screen: OrganizationDetail,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({navigation}) => ({
       title: `${navigation.state.params.name.toUpperCase()}`,
       headerStyle: {
         backgroundColor: '#000',
@@ -45,13 +45,29 @@ export const OrganizationStack = StackNavigator({
         color: '#fff',
       },
       cardStyle: {
-        backgroundColor: "#333",
-      }
-    })
+        backgroundColor: '#333',
+      },
+    }),
+  },
+  OrganizationUserEdit: {
+    screen: OrganizationUserEdit,
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.user.email.toUpperCase()}`,
+      headerStyle: {
+        backgroundColor: '#000',
+      },
+      headerTintColor: '#ffffff',
+      headerTitleStyle: {
+        color: '#fff',
+      },
+      cardStyle: {
+        backgroundColor: '#333',
+      },
+    }),
   },
   OrganizationNew: {
     screen: OrganizationNew,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({navigation}) => ({
       title: 'New Organization',
       headerStyle: {
         backgroundColor: '#222',
@@ -60,19 +76,19 @@ export const OrganizationStack = StackNavigator({
         color: '#fff',
       },
       cardStyle: {
-        backgroundColor: "#333",
-      }
-    })
-  }
-})
+        backgroundColor: '#333',
+      },
+    }),
+  },
+});
 
 export const SignedOut = StackNavigator({
   SignIn: {
     screen: Login,
     navigationOptions: {
-      headerStyle
-    }
-  }
+      headerStyle,
+    },
+  },
 });
 
 export const SignedIn = TabNavigator(
@@ -80,54 +96,39 @@ export const SignedIn = TabNavigator(
     Organizations: {
       screen: OrganizationStack,
       navigationOptions: {
-        tabBarLabel: "Organizations",
-        tabBarIcon: ({ tintColor }) =>
-        <FontAwesome name="sitemap" size={20} color={tintColor} />
-      }
+        tabBarLabel: 'Organizations',
+        tabBarIcon: ({tintColor}) => (
+          <FontAwesome name="sitemap" size={20} color={tintColor} />
+        ),
+      },
     },
-    //Users: {
-    //  screen: Users,
-    //  navigationOptions: {
-    //    tabBarLabel: "Users",
-    //    tabBarIcon: ({ tintColor }) =>
-    //    <FontAwesome name="users" size={20} color={tintColor} />
-    //  }
-    //},
     ProfileScreen: {
       screen: ProfileScreen,
       navigationOptions: {
-        tabBarLabel: "Profile",
-        tabBarIcon: ({ tintColor }) =>
-        <FontAwesome name="user-circle" size={20} color={tintColor} />
-      }
+        tabBarLabel: 'Profile',
+        tabBarIcon: ({tintColor}) => (
+          <FontAwesome name="user-circle" size={20} color={tintColor} />
+        ),
+      },
     },
-    //SignOutLink: {
-    //  screen: SignedOut,
-    //  navigationOptions: {
-    //    tabBarLabel: "Sign Out",
-    //    tabBarIcon: ({ tintColor }) =>
-    //    <FontAwesome name="sign-out" size={20} color={tintColor} />
-    //  }
-    //},
   },
   {
-    activeBackgroundColor: "#666666",
-    inactiveBacgroundColor: "#111111",
+    activeBackgroundColor: '#666666',
+    inactiveBacgroundColor: '#111111',
     tabBarOptions: {
-      activeTintColor: "#ffffff",
+      activeTintColor: '#ffffff',
       showIcon: true,
       iconStyle: {
         height: 20,
         width: 20,
       },
       style: {
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        backgroundColor: "#666666",
-      }
-    }
-  }
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+        backgroundColor: '#666666',
+      },
+    },
+  },
 );
-
 
 export const createRootNavigator = (signedIn = false) => {
   return StackNavigator(
@@ -135,20 +136,20 @@ export const createRootNavigator = (signedIn = false) => {
       SignedIn: {
         screen: SignedIn,
         navigationOptions: {
-          gesturesEnabled: false
-        }
+          gesturesEnabled: false,
+        },
       },
       SignedOut: {
         screen: SignedOut,
         navigationOptions: {
-          gesturesEnabled: false
-        }
-      }
+          gesturesEnabled: false,
+        },
+      },
     },
     {
-      headerMode: "none",
-      mode: "modal",
-      initialRouteName: signedIn ? "SignedIn" : "SignedOut"
-    }
+      headerMode: 'none',
+      mode: 'modal',
+      initialRouteName: signedIn ? 'SignedIn' : 'SignedOut',
+    },
   );
 };

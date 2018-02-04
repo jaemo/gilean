@@ -1,45 +1,42 @@
-import React, { Component } from 'react';
-import { ScrollView, TextInput,TouchableOpacity, Text } from 'react-native';
-import { Tile, Card, List, ListItem } from 'react-native-elements';
+import React, {Component} from 'react';
+import {ScrollView, TextInput, TouchableOpacity, Text} from 'react-native';
+import {Tile, Card, List, ListItem} from 'react-native-elements';
 import styles from '../stylesheets/style';
 
 class OrganizationNew extends Component {
-
-  constructor(props){
-    console.log(props)
+  constructor(props) {
+    console.log(props);
     super(props);
     this.state = {
       token: this.props.screenProps.token,
-    }
+    };
   }
 
-  onSetField = (field) => {
-    this.setState(field)
+  onSetField = field => {
+    this.setState(field);
   };
 
   onCreateOrganization = async () => {
-    try{
+    try {
       let response = await fetch(global.api_url + '/api/admin/organizations', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': "Bearer " + this.state.token,
+          Authorization: 'Bearer ' + this.state.token,
         },
         body: JSON.stringify({
           organization: {
             name: this.state.name,
-          }
-        })
-      })
+          },
+        }),
+      });
 
-      if(response.status == 201){
-
-
+      if (response.status == 201) {
         this.props.navigation.state.params.refreshHandler();
         this.props.navigation.goBack();
       }
-    } catch(error) {
+    } catch (error) {
       //
     }
   };
@@ -51,18 +48,17 @@ class OrganizationNew extends Component {
           <TextInput
             name="name"
             style={styles.lighterInput}
-            onChangeText={(name) => this.onSetField({name})}
+            onChangeText={name => this.onSetField({name})}
             placeholderTextColor="#fff"
             placeholder="Organization Name"
-            underlineColorAndroid='transparent'
+            underlineColorAndroid="transparent"
             value={this.state.name}
-            />
+          />
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              this.onCreateOrganization()
-            }}
-            >
+              this.onCreateOrganization();
+            }}>
             <Text style={styles.buttonText}>SAVE ORGANIZATION</Text>
           </TouchableOpacity>
         </Card>
@@ -72,4 +68,3 @@ class OrganizationNew extends Component {
 }
 
 export default OrganizationNew;
-
