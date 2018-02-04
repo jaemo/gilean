@@ -5,7 +5,6 @@ import styles from '../stylesheets/style';
 
 class OrganizationNew extends Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
       token: this.props.screenProps.token,

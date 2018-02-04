@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
 import {Tile, Card, List, ListItem} from 'react-native-elements';
 import {isSignedIn, onSignOut, getCreds} from '../auth';
@@ -61,6 +62,7 @@ class OrganizationDetail extends Component {
       );
       if (response.status == 204) {
         this.props.navigation.state.params.refreshHandler();
+        Alert.alert("Success", "User Deleted")
         this.props.navigation.goBack();
       }
     } catch (error) {
@@ -92,11 +94,17 @@ class OrganizationDetail extends Component {
 
       if (response.status == 200) {
         this.props.navigation.state.params.refreshHandler();
+        Alert.alert("Success", "User Updated")
         this.props.navigation.goBack();
+      } else {
+        json = await response.json();
+        Alert.alert('Error', "Could not save the user");
+        this.setState({
+          errors: json.errors
+        })
       }
     } catch (error) {
-      console.log(error);
-      //
+      console.log(error)
     }
   };
 
@@ -109,15 +117,18 @@ class OrganizationDetail extends Component {
   }
 
   renderUserForm() {
+    let errors = this.state.errors;
+
     return (
       <KeyboardAvoidingView behavior="padding">
         <Card containerStyle={styles.card}>
           <Text style={styles.largeHeader}>Editing User</Text>
 
           <Text style={styles.formLabel}>Email:</Text>
+          { errors && errors.email && <Text style={styles.errorText}>{errors.email}</Text> }
           <TextInput
             name="name"
-            style={styles.lighterInput}
+            style={[styles.lighterInput, errors && errors.email && styles.inputError]}
             onChangeText={email => this.onSetField({email})}
             placeholderTextColor="#fff"
             placeholder="User Email"
@@ -126,9 +137,10 @@ class OrganizationDetail extends Component {
           />
 
           <Text style={styles.formLabel}>Password:</Text>
+          { errors && errors.password && <Text style={styles.errorText}>{errors.password}</Text> }
           <TextInput
             name="name"
-            style={styles.lighterInput}
+            style={[styles.lighterInput, errors && errors.password && styles.inputError]}
             onChangeText={password => this.onSetField({password})}
             placeholderTextColor="#fff"
             placeholder="Password"

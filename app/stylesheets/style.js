@@ -176,4 +176,10 @@ export default StyleSheet.create({
     right: 0,
     alignSelf: 'flex-end',
   },
+  errorText: {
+    color: "#ff0000",
+  },
+  inputError: {
+    borderColor: "#ff0000",
+  },
 });

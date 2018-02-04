@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
 import {Tile, Card, List, ListItem} from 'react-native-elements';
 import {isSignedIn, onSignOut, getCreds} from '../auth';
@@ -121,8 +122,12 @@ class OrganizationDetail extends Component {
       );
 
       if (response.status == 200) {
+        Alert.alert('Success', 'Organization was updated');
         this.props.navigation.state.params.refreshHandler();
         this.props.navigation.goBack();
+      } else {
+        json = await response.json();
+        Alert.alert('Error', json.message);
       }
     } catch (error) {
       //
@@ -150,15 +155,19 @@ class OrganizationDetail extends Component {
 
       if (response.status == 201) {
         await this.getUsers();
+        Alert.alert('Success', 'User was added to the organization.');
         this.setState({
           email: '',
           password: '',
           password_confirmation: '',
         });
         this.props.navigation.state.params.refreshHandler();
+      } else {
+        json = await response.json();
+        Alert.alert('Error', json.message);
       }
     } catch (error) {
-      console.log(error);
+      Alert.alert('Error', error);
     }
   };
 
@@ -166,7 +175,7 @@ class OrganizationDetail extends Component {
     this.props.navigation.navigate('OrganizationUserEdit', {
       user: user,
       organization_id: this.state.id,
-      refreshHandler: this.onOrganizationsChange,
+      refreshHandler: this.getUsers,
     });
   }
 
