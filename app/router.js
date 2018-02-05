@@ -4,7 +4,7 @@ import {StackNavigator, TabNavigator} from 'react-navigation';
 import {FontAwesome} from 'react-native-vector-icons';
 
 import Login from './screens/Login';
-import Home from './screens/Home';
+import SettingsScreen from './screens/SettingsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import Organizations from './screens/Organizations';
 import OrganizationDetail from './screens/OrganizationDetail';
@@ -86,6 +86,12 @@ export const OrganizationStack = StackNavigator({
 export const SignedOut = StackNavigator({
   SignIn: {
     screen: Login,
+    navigationOptions: {
+      headerStyle,
+    },
+  },
+  Settings: {
+    screen: SettingsScreen,
     navigationOptions: {
       headerStyle,
     },

@@ -11,6 +11,7 @@ import {
   Button,
   TouchableOpacity,
 } from 'react-native';
+import {FontAwesome} from 'react-native-vector-icons';
 import {Card, FormLabel, FormInput} from 'react-native-elements';
 import styles from '../stylesheets/style';
 
@@ -48,6 +49,10 @@ export default class Login extends React.Component {
     var loginResponse = await this.props.screenProps.loginHandler(email, password);
   };
 
+  handleSettings = () =>{
+    this.props.navigation.navigate("Settings")
+  }
+
   render() {
     const {emailError, passwordError} = this.state;
     let email = this.state.email || '';
@@ -57,6 +62,9 @@ export default class Login extends React.Component {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.logoframe}>
+            <TouchableOpacity style={styles.settingsButton} onPress={this.handleSettings}>
+              <FontAwesome name="cog" size={20} color="#dddddd" />
+            </TouchableOpacity>
           <Image style={styles.logo} source={require('../images/logo.png')} />
         </View>
         {!isLoggingIn && (
